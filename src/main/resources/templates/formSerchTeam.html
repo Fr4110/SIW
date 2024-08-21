@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Cerca Team</title>
+  <link rel="stylesheet" href="/stile.css?version=3" />
+ </head>
+ <body>
+  <div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+  <h1>Cerca Team per anno</h1>
+  <form th:action="@{/year}" method="post">
+  
+  <label for="year">Anno:</label>
+  <input type="number" id="year" name="year"/>
+  <button type="submit>">Cerca</button>
+  
+  </form>
+ </body>
+
+</html>
