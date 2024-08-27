@@ -7,22 +7,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.sport.siw.model.Team;
+import it.sport.siw.repository.TeamRepository;
 import it.sport.siw.service.TeamService;
 
 @Controller
 public class TeamController {
-	@Autowired TeamService teamService;
+	@Autowired 
+	private TeamService teamService;
+	
+	@Autowired
+	private TeamRepository teamRepository;
+		
+	  @GetMapping("/index")
+	  public String index() {
+	  return "index.html";
+	  }
+	
 	  @GetMapping("/team/{id}")
 	  public String getTeam(@PathVariable("id") Long id, Model model) {
-	    model.addAttribute("team", this.teamService.findById(id));
+	    model.addAttribute("team", this.teamRepository.findById(id).get());
 	    return "team.html";
 	  }
 
 	  @GetMapping("/team")
-	  public String showTeams(Model model) {
-	    model.addAttribute("teams", this.teamService.findAll());
+	  public String getTeams(Model model) {
+	    model.addAttribute("teams", this.teamRepository.findAll());
 	    return "teams.html";
 	  }
 	  
@@ -32,12 +44,22 @@ public class TeamController {
 	    return "formNewTeam.html";
 	  }
 	  
+	 @GetMapping("/formSearchteams")
+	  public String formSearchTeam() {
+	    return "formSearchteams.html";
+	  }
+	  
 	  @PostMapping("/team")
 	  public String newTeam(@ModelAttribute("team") Team team, Model model) {
-		this.teamService.save(team);
+		this.teamRepository.save(team);
 	    model.addAttribute("team", team);
-	      return "redirect:team/"+team.getId();
+	    return "team.html";
+	    /*"redirect:/team/"+team.getId();*/
 	  }
-
-
+	  
+	  @PostMapping("/formSearchteams")
+	  public String searchTeam(Model model, @RequestParam int year) {
+	      model.addAttribute("teams", this.teamRepository.findByYear(year));
+	      return "foundTeam.html";
+	  }
 }

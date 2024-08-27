@@ -9,7 +9,7 @@
 	<div th:if="${teams==null || teams.isEmpty()}">Non ci sono team nel sistema</div>
 	<ul>
 		<li th:each="team : ${teams}">
-			<a th:href="@{'/team' + '/' + ${team.id}}" th:text="${team.name} + ' (' + ${team.year} + ')' + ' (' + ${team.address} + ')'">Milan!
+			<a th:href="@{'/team/' + ${team.id}}" th:text="${team.name} + ' (' + ${team.year} + ')' + ' (' + ${team.address} + ')'">Milan!
 				(2000) street boh 1</a>
 		</li>
 	</ul>

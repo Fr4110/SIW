@@ -12,6 +12,7 @@
 	<div th:if="${team}">
 		<span th:text="${team.name}">Milan!</span>
 		<span th:text="'(' + ${team.year} + ')'">2000</span>
+		 <span th:text="${team.address}">street 1</span>
 	</div>
 	<div th:unless="${team}">Non esiste</div>
 </body>
