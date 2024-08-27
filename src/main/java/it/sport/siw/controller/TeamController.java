@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.sport.siw.model.Team;
 import it.sport.siw.repository.TeamRepository;
-import it.sport.siw.service.TeamService;
+//import it.sport.siw.service.TeamService;
+
 
 @Controller
 public class TeamController {
-	@Autowired 
-	private TeamService teamService;
+	//@Autowired 
+	//private TeamService teamService;
 	
 	@Autowired
 	private TeamRepository teamRepository;
@@ -44,9 +45,9 @@ public class TeamController {
 	    return "formNewTeam.html";
 	  }
 	  
-	 @GetMapping("/formSearchteams")
+	 @GetMapping("/formSearchTeam")
 	  public String formSearchTeam() {
-	    return "formSearchteams.html";
+	    return "formSearchTeam.html";
 	  }
 	  
 	  @PostMapping("/team")
@@ -57,7 +58,19 @@ public class TeamController {
 	    /*"redirect:/team/"+team.getId();*/
 	  }
 	  
-	  @PostMapping("/formSearchteams")
+	  /*@PostMapping("/teams")
+		public String newTeam(@ModelAttribute("movie") Team team, Model model) {
+			
+			if (!TeamRepository.existsByNameAndYear(Team.getName(), Team.getYear()))) {
+				this.TeamRepository.save(team); 
+				model.addAttribute("team", team);
+				return "team.html";
+			} else {
+				return "formNewTeam.html"; 
+			}
+		}
+	  */
+	  @PostMapping("/formSearchTeam")
 	  public String searchTeam(Model model, @RequestParam int year) {
 	      model.addAttribute("teams", this.teamRepository.findByYear(year));
 	      return "foundTeam.html";
