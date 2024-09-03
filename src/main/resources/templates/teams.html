@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Team</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>Team</title>
+    <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-	<h1>Team</h1>
-	<div th:if="${teams==null || teams.isEmpty()}">Non ci sono team nel sistema</div>
-	<ul>
-		<li th:each="team : ${teams}">
-			<a th:href="@{'/team/' + ${team.id}}" th:text="${team.name} + ' (' + ${team.year} + ')' + ' (' + ${team.address} + ')'"></a>
-		</li>
-	</ul>
-</body>
+    <h1>Team</h1>
 
+    <!-- Mostra un messaggio se la lista dei team è null o vuota -->
+    <div th:if="${#lists.isEmpty(teams)}">Non ci sono team nel sistema</div>
+
+    <!-- Lista dei team -->
+    <ul>
+        <li th:each="team : ${teams}">
+            <!-- Crea un link per ogni team, usando l'ID del team -->
+            <a th:href="@{/team/{id}(id=${team.id})}" th:text="${team.name} + ' (' + ${team.year} + ') (' + ${team.address} + ')'"></a>
+        </li>
+    </ul>
+</body>
 </html>

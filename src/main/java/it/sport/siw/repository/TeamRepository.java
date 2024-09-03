@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import it.sport.siw.model.Team;
 
 public interface TeamRepository extends CrudRepository <Team, Long>{
-	public List<Team> findByYear(Integer year);
-	public boolean existsByNameAndYear(String name, Integer year);
+	
+	public List<Team> findByYear(int year);
+	
+	public boolean existsByNameAndYear(String name, int year);
 }
