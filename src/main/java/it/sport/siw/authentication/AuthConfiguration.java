@@ -52,7 +52,7 @@ import javax.sql.DataSource;
             .cors(cors -> cors.disable()) // Disabilita CORS
             .authorizeHttpRequests(requests -> requests
                 // Chiunque può accedere alle pagine index, login, register, ai CSS e alle immagini
-                .requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/css/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/","/login", "/index", "/register", "/css/**").permitAll()
                 // Chiunque può mandare richieste POST per login e register
                 .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                 // Solo gli utenti con ruolo ADMIN possono accedere agli endpoint "/admin/**"
@@ -63,11 +63,11 @@ import javax.sql.DataSource;
                 // Tutti gli utenti autenticati possono accedere alle pagine rimanenti
                 .anyRequest().authenticated()
             )
-            .formLogin(login -> login
-                .loginPage("/login") // Specifica la pagina di login
+            .formLogin(formLogin -> formLogin
+                .loginPage("/formLogin") // Specifica la pagina di login
                 .permitAll()
                 .defaultSuccessUrl("/success", true) // Reindirizza alla pagina di successo dopo il login
-                .failureUrl("/login?error=true") // Reindirizza alla pagina di login con errore se il login fallisce
+                .failureUrl("/formLogin?error=true") // Reindirizza alla pagina di login con errore se il login fallisce
             )
             .logout(logout -> logout
                 .logoutUrl("/logout") // URL per il logout

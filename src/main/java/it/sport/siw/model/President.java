@@ -1,21 +1,29 @@
 package it.sport.siw.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class President {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	//private Long id;
+	private Long id;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String surname;
+	@NotBlank
 	private String cf;
+	@NotBlank
 	private String city;
-	private String dateOfBirth;
+	@NotNull
+	private LocalDate dateOfBirth;
 	
 	
 	public String getName() {
@@ -42,14 +50,19 @@ public class President {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getDateOfBirth() {
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(cf, city, dateOfBirth, name, surname);

@@ -26,14 +26,14 @@ public class AuthenticationController {
     @Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/register") 
+	@GetMapping(value = "/formRegisterUser") 
 	public String showRegisterForm (Model model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("credentials", new Credentials());
 		return "formRegisterUser";
 	}
 	
-	@GetMapping(value = "/login") 
+	@GetMapping(value = "/formLogin") 
 	public String showLoginForm (Model model) {
 		return "formLogin";
 	}
@@ -42,30 +42,30 @@ public class AuthenticationController {
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
-	        return "index.html";
+	        return "index";
 		}
 		else {		
 			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 			if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-				return "admin/indexAdmin.html";
+				return "admin/indexAdmin";
 			}
 		}
-        return "index.html";
+        return "index";
 	}
 		
-    @GetMapping(value = "/success")
+    @GetMapping(value = "/registrationSuccessful")
     public String defaultAfterLogin(Model model) {
         
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
     	if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "admin/indexAdmin.html";
+            return "admin/indexAdmin";
         }
-        return "index.html";
+        return "index";
     }
 
-	@PostMapping(value = { "/register" })
+	@PostMapping(value = { "/formRegisterUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,
@@ -80,6 +80,6 @@ public class AuthenticationController {
             model.addAttribute("user", user);
             return "registrationSuccessful";
         }
-        return "registerUser";
+        return "formRegisterUser";
     }
 }

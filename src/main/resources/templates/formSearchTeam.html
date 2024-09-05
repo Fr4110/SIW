@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Cerca Team</title>
   <link rel="stylesheet" href="/css/stile.css" />
@@ -7,11 +7,24 @@
 
 <body>
 <h1>Cerca team per anno</h1>
-	<form action="/formSearchTeam" method="post">
-		<div>Anno: <input type="text" name="year" />
+	<form th:action="@{/formSearchTeam}" method="post">
+		<div>
+			Anno: <input type="text" name="year" th:field="*{year}" required/>
+			<!-- Visualizza errore per il campo year -->
+			<div th:if="${#fields.hasErrors('year')}" th:errors="*{year}"> <!-- Messaggi di errore per il campo year --></div>
 		</div>
-		<button type="submit">Cerca Team </button>
+		<button type="submit">Cerca Team</button>
 	</form>
+
+	<!-- Messaggio di errore nel caso non siano trovati team -->
+	<div th:if="${teams == null || teams.isEmpty()}">
+		Nessun team trovato per l'anno specificato.
+	</div>
+	
+	 <!-- Ancora per tornare alla home -->
+  <div>
+    <a th:href="@{/}">Torna alla Home</a>
+  </div>
 </body>
 
 </html>
