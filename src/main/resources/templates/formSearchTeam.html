@@ -9,9 +9,9 @@
 <h1>Cerca team per anno</h1>
 	<form th:action="@{/formSearchTeam}" method="post">
 		<div>
-			Anno: <input type="text" name="year" th:field="*{year}" required/>
-			<!-- Visualizza errore per il campo year -->
-			<div th:if="${#fields.hasErrors('year')}" th:errors="*{year}"> <!-- Messaggi di errore per il campo year --></div>
+			Anno: <input type="text" th:field="*{teamSearch.year}" required/>
+			<!-- Messaggi di errore per il campo year -->
+			<div th:if="${#fields.hasErrors('teamSearch.year')}" th:errors="*{teamSearch.year}"> <!-- Messaggi di errore per il campo year --></div>
 		</div>
 		<button type="submit">Cerca Team</button>
 	</form>

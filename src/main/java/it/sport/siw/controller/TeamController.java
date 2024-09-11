@@ -82,13 +82,14 @@ public class TeamController {
 	}
 
 	@GetMapping("/formSearchTeam")
-	public String formSearchTeam() {
+	public String formSearchTeam(Model model) {
+	    model.addAttribute("teamSearch", new Team()); // Associa un nuovo oggetto Team
 		return "formSearchTeam";
 	}
 
 	@PostMapping("/formSearchTeam")
-	public String searchTeam(Model model, @RequestParam int year) {
+	public String searchTeam(Model model, @RequestParam("year") int year) {
 		model.addAttribute("teams", this.teamRepository.findByYear(year));
-		return "formSearchTeam.html";
+		return "foundTeam";
 	}
 }

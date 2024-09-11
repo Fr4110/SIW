@@ -26,35 +26,37 @@ public class AuthenticationController {
     @Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/formRegisterUser") 
+	@GetMapping("/formRegisterUser") 
 	public String showRegisterForm (Model model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("credentials", new Credentials());
 		return "formRegisterUser";
 	}
 	
-	@GetMapping(value = "/formLogin") 
+	@GetMapping("/login")
 	public String showLoginForm (Model model) {
 		return "formLogin";
 	}
 
-	@GetMapping(value = "/") 
+	@GetMapping(value = "/")
 	public String index(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (authentication instanceof AnonymousAuthenticationToken) {
 	        return "index";
-		}
-		else {		
-			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-			if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-				return "admin/indexAdmin";
-			}
-		}
-        return "index";
+	    } else {
+	        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	        String username = userDetails.getUsername();
+	        model.addAttribute("username", username); // Aggiungi l'username al modello
+	        Credentials credentials = credentialsService.getCredentials(username);
+	        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+	            return "admin/indexAdmin";
+	        }
+	    }
+	    return "index";
 	}
+
 		
-    @GetMapping(value = "/registrationSuccessful")
+    @GetMapping("/registrationSuccessful")
     public String defaultAfterLogin(Model model) {
         
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -65,7 +67,7 @@ public class AuthenticationController {
         return "index";
     }
 
-	@PostMapping(value = { "/formRegisterUser" })
+	@PostMapping("/formRegisterUser")
     public String registerUser(@Valid @ModelAttribute("user") User user,
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,

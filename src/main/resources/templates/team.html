@@ -15,6 +15,9 @@
 		<span th:text="${team.address}"></span>
 	</div>
 	<div th:unless="${team}">Non esiste</div>
+	<div>
+    <a th:href="@{/}">Torna alla Home</a>
+  </div>
 </body>
 
 </html>

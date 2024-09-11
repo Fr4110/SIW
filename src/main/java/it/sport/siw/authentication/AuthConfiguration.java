@@ -13,9 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import static it.sport.siw.model.Credentials.ADMIN_ROLE;
-import static org.springframework.security.config.Customizer.withDefaults;
 
+import static it.sport.siw.model.Credentials.ADMIN_ROLE;
 import javax.sql.DataSource;
 
 @Configuration
@@ -27,12 +26,11 @@ import javax.sql.DataSource;
     private DataSource dataSource;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .authoritiesByUsernameQuery("SELECT username, role from credentials WHERE username=?")
-                .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
+        .dataSource(dataSource)
+        .authoritiesByUsernameQuery("SELECT username, role from credentials WHERE username=?")
+        .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
     }
     
     @Bean
@@ -46,37 +44,36 @@ import javax.sql.DataSource;
     }
 
     @Bean
-    protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-            .csrf(withDefaults()) // Abilita CSRF con le impostazioni predefinite
-            .cors(cors -> cors.disable()) // Disabilita CORS
-            .authorizeHttpRequests(requests -> requests
-                // Chiunque può accedere alle pagine index, login, register, ai CSS e alle immagini
-                .requestMatchers(HttpMethod.GET, "/","/login", "/index", "/register", "/css/**").permitAll()
-                // Chiunque può mandare richieste POST per login e register
-                .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
-                // Solo gli utenti con ruolo ADMIN possono accedere agli endpoint "/admin/**"
-                .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority("ROLE_ADMIN")
-                // Solo gli utenti autenticati possono accedere alla ricerca
-                .requestMatchers(HttpMethod.GET, "/formSearchTeam").authenticated() // Modifica questo percorso secondo necessità
-                // Tutti gli utenti autenticati possono accedere alle pagine rimanenti
+    protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception{
+        httpSecurity	
+                .csrf().and().cors().disable()
+                .authorizeHttpRequests()
+//                .requestMatchers("/**").permitAll()
+                // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
+                .requestMatchers(HttpMethod.GET,"/","/index", "/login", "/register","/css/**").permitAll()
+        		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
+                .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
+                .requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
+                .requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
+        		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
                 .anyRequest().authenticated()
-            )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/formLogin") // Specifica la pagina di login
+                // LOGIN: qui definiamo il login
+                .and().formLogin()
+                .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/success", true) // Reindirizza alla pagina di successo dopo il login
-                .failureUrl("/formLogin?error=true") // Reindirizza alla pagina di login con errore se il login fallisce
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout") // URL per il logout
-                .logoutSuccessUrl("/") // Reindirizza alla home dopo il logout
-                .invalidateHttpSession(true) // Invalida la sessione HTTP
-                .deleteCookies("JSESSIONID") // Cancella i cookie di sessione
-                .clearAuthentication(true) // Pulisce l'autenticazione
-                .permitAll()
-            );
+                .defaultSuccessUrl("/registrationSuccessful", true)
+                .failureUrl("/login?error=true")
+                // LOGOUT: qui definiamo il logout
+                .and()
+                .logout()	
+                // il logout è attivato con una richiesta GET a "/logout"
+                .logoutUrl("/logout")
+                // in caso di successo, si viene reindirizzati alla home
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .clearAuthentication(true).permitAll();
         return httpSecurity.build();
     }
 }

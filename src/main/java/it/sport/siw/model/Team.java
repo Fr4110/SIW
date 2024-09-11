@@ -26,7 +26,7 @@ public class Team {
 	private Integer year;
 
 	private String address;
-	
+	//da inserire la mappa per i gioactori
 	@OneToOne(cascade = CascadeType.ALL)
 	private President president;
 
