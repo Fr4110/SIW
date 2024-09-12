@@ -26,13 +26,25 @@ public class CredentialsService {
     @Transactional
     public Credentials getCredentials(String username) {
         Optional<Credentials> result = this.credentialsRepository.findByUsername(username);
+        if(result.isPresent()) {
+            System.out.println("User found: " + result.get().getUsername());
+        } else {
+            System.out.println("User not found: " + username);
+        }
         return result.orElse(null);
     }
 
     @Transactional
-    public Credentials saveCredentials(Credentials credentials) {
-        credentials.setRole(Credentials.DEFAULT_ROLE);
+    public Credentials saveCredentials(Credentials credentials, String role) {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+        credentials.setRole(role);  // Assegna un ruolo all'utente
         return this.credentialsRepository.save(credentials);
+    }
+    public boolean isAdmin(Credentials credentials) {
+        return "ADMIN".equals(credentials.getRole());
+    }
+
+    public boolean isPresident(Credentials credentials) {
+        return "PRESIDENT".equals(credentials.getRole());
     }
 }

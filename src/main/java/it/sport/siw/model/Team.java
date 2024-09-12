@@ -61,10 +61,19 @@ public class Team {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+
+	public President getPresident() {
+		return president;
+	}
+
+	public void setPresident(President president) {
+		this.president = president;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, name, year);
+		return Objects.hash(address, id, name, president, year);
 	}
 
 	@Override
@@ -76,8 +85,11 @@ public class Team {
 		if (getClass() != obj.getClass())
 			return false;
 		Team other = (Team) obj;
-		return Objects.equals(address, other.address) && Objects.equals(name, other.name)
+		return Objects.equals(address, other.address) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(president, other.president)
 				&& Objects.equals(year, other.year);
 	}
+
+	
 
 }

@@ -78,7 +78,7 @@ public class TeamController {
 	@GetMapping("/admin/formNewTeam")
 	public String formNewTeam(Model model) {
 		model.addAttribute("team", new Team());
-		return "formNewTeam";
+		return "admin/formNewTeam";
 	}
 
 	@GetMapping("/formSearchTeam")
@@ -92,4 +92,61 @@ public class TeamController {
 		model.addAttribute("teams", this.teamRepository.findByYear(year));
 		return "foundTeam";
 	}
+	
+	// Metodo per visualizzare il form di modifica per una squadra esistente
+	   
+    @GetMapping("/admin/formEditTeam/{id}")
+    public String formEditTeam(@PathVariable("id") Long id, Model model) {
+        Team team = this.teamRepository.findById(id).get();
+        if (team != null) {
+            model.addAttribute("team", team);
+            return "admin/formEditTeam";
+        } else {
+            // Gestisci il caso in cui il team non è trovato
+            return "redirect:/error";
+        }
+    }
+
+
+    // Metodo per aggiornare una squadra esistente
+    @PostMapping("/admin/formEditTeam/{id}")
+    public String updateTeam(@PathVariable("id") Long id, @Valid @ModelAttribute("team") Team team, BindingResult bindingResult, Model model) {
+        // Validiamo i dati della squadra
+        this.teamValidator.validate(team, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            // Recuperiamo la squadra esistente dal database
+            Team existingTeam = this.teamRepository.findById(id).get();
+            
+            // Aggiorniamo i campi della squadra
+            existingTeam.setName(team.getName());
+            existingTeam.setYear(team.getYear());
+            existingTeam.setAddress(team.getAddress());
+            
+            // Salviamo le modifiche
+            this.teamRepository.save(existingTeam);
+
+            // Aggiungiamo la squadra aggiornata al modello
+            model.addAttribute("team", existingTeam);
+
+            // Redirigiamo alla pagina della squadra
+            return "redirect:/team/" + id;
+        } else {
+            // In caso di errori di validazione, torniamo al form di modifica con gli errori
+            model.addAttribute("team", team);
+            return "admin/formEditTeam";
+        }
+    }
+    
+ // Rotta per mostrare la pagina delle operazioni sulle squadre (inserimento/aggiornamento)
+    @GetMapping("/admin/teamOperation")
+    public String teamOperationsPage(Model model) {
+        return "admin/teamOperation"; 
+    }
+    
+    @GetMapping("/admin/selectTeamToEdit")
+    public String selectTeamToEdit(Model model) {
+        model.addAttribute("teams", this.teamRepository.findAll());
+        return "admin/selectTeamToEdit";
+    }
+
 }

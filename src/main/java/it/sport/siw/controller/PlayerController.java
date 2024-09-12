@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.web.bind.annotation.ModelAttribute;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-	import it.sport.siw.model.Player;
+import it.sport.siw.model.Player;
 	import it.sport.siw.repository.PlayerRepository;
 	
 @Controller
@@ -18,18 +19,18 @@ public class PlayerController {
 		@Autowired 
 		private PlayerRepository playerRepository;
 
-		@GetMapping(value="/admin/formNewPlayer")
+		@GetMapping(value="/president/formNewPlayer")
 		public String formNewPlayer(Model model) {
 			model.addAttribute("player", new Player());
-			return "admin/formNewPlayer";
+			return "president/formNewPlayer";
 		}
 		
-		@GetMapping(value="/admin/indexPlayer")
+		@GetMapping(value="/president/indexPlayer")
 		public String indexPlayer() {
-			return "admin/indexPlayer";
+			return "president/indexPlayer";
 		}
 		
-		@PostMapping("/admin/player")
+		@PostMapping("/president/player")
 		public String newPlayer(@ModelAttribute("player") Player player, Model model) {
 			if (!playerRepository.existsByNameAndSurname(player.getName(), player.getSurname())) {
 				this.playerRepository.save(player); 
@@ -37,7 +38,7 @@ public class PlayerController {
 				return "player";
 			} else {
 				model.addAttribute("messaggioErrore", "Questo giocatore esiste già");
-				return "admin/formNewPlayer"; 
+				return "president/formNewPlayer"; 
 			}
 		}
 
@@ -52,4 +53,24 @@ public class PlayerController {
 			model.addAttribute("players", this.playerRepository.findAll());
 			return "players";
 		}
+		
+		 // Form per eliminare un giocatore - Gestito dal presidente
+	    @GetMapping("/president/formDeletePlayer")
+	    public String formDeletePlayer(Model model) {
+	        model.addAttribute("players", this.playerRepository.findAll());
+	        return "president/formDeletePlayer";  // Mostra la vista con il form per eliminare
+	    }
+
+	    // Eliminazione di un giocatore - Gestito dal presidente
+	    @PostMapping("/president/player/delete")
+	    public String deletePlayer(@RequestParam("Id") Long Id, Model model) {
+	        if (this.playerRepository.existsById(Id)) {
+	            this.playerRepository.deleteById(Id);
+	            model.addAttribute("messaggioSuccesso", "Giocatore eliminato con successo");
+	        } else {
+	            model.addAttribute("messaggioErrore", "Giocatore non trovato");
+	        }
+	        model.addAttribute("players", this.playerRepository.findAll());
+	        return "president/formDeletePlayer";  // Torna alla vista con il form per eliminare
+	    }
 	}

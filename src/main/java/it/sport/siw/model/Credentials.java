@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Id;
 
 @Entity
+@Table(name = "credentials")
 public class Credentials {
-	public static final String DEFAULT_ROLE = "DEFAULT";
 	public static final String ADMIN_ROLE = "ADMIN";
 	public static final String PRESIDENT_ROLE = "PRESIDENT";
 	
@@ -16,13 +16,6 @@ public class Credentials {
 	private String password;
 	private String role;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private User user;
-	
-	public String getUsername() {
-		return username;
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -31,31 +24,38 @@ public class Credentials {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getRole() {
 		return role;
 	}
-	
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	// Helper method per determinare se è un amministratore o presidente
+    public boolean isAdmin() {
+        return ADMIN_ROLE.equals(this.role);
+    }
+
+    public boolean isPresident() {
+        return PRESIDENT_ROLE.equals(this.role);
+    }
+	
+	
 }

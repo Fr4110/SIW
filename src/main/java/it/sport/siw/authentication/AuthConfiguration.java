@@ -50,18 +50,17 @@ import javax.sql.DataSource;
                 .authorizeHttpRequests()
 //                .requestMatchers("/**").permitAll()
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-                .requestMatchers(HttpMethod.GET,"/","/index", "/login", "/register","/css/**").permitAll()
-        		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
-                .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
-                .requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
-                .requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
-        		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
-                .anyRequest().authenticated()
-                // LOGIN: qui definiamo il login
-                .and().formLogin()
+                .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN")  // Accesso riservato all'amministratore
+                .requestMatchers(HttpMethod.POST, "/president/**").hasAnyAuthority("PRESIDENT")  // Accesso riservato al presidente
+                .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")  // Accesso riservato all'amministratore
+                .requestMatchers(HttpMethod.GET, "/president/**").hasAnyAuthority("PRESIDENT")  // Accesso riservato al presidente
+
+                 .anyRequest().permitAll()
+                .and()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/registrationSuccessful", true)
+                .defaultSuccessUrl("/success", true)
                 .failureUrl("/login?error=true")
                 // LOGOUT: qui definiamo il logout
                 .and()

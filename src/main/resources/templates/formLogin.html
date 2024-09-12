@@ -29,9 +29,6 @@
             <input id="password" name="password" type="password" required />
         </div>
 
-        <!-- Token CSRF per la protezione -->
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
         <!-- Messaggio di errore in caso di credenziali errate -->
         <div>
             <span th:if="${param.error != null}">Username o password errati</span>
@@ -47,11 +44,7 @@
     <div>
         <a th:href="@{/}">Torna alla homepage</a>
     </div>
-
-    <!-- Ancora per la registrazione -->
-    <div>
-        <a th:href="@{/register}" th:text="Registrati">Registrati</a>
-    </div>
+   
 </body>
 
 </html>
