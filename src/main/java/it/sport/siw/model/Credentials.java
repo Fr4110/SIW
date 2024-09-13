@@ -1,20 +1,35 @@
 package it.sport.siw.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "credentials")
 public class Credentials {
 	public static final String ADMIN_ROLE = "ADMIN";
 	public static final String PRESIDENT_ROLE = "PRESIDENT";
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@NotBlank
 	private String username;
+	@NotBlank
 	private String password;
+	@NotBlank
 	private String role;
+
+	@OneToOne
+	@JoinColumn(name = "president_id")
+	private President president;
+
+	public President getPresident() {
+		return president;
+	}
+
+	public void setPresident(President president) {
+		this.president = president;
+	}
 
 	public Long getId() {
 		return id;
@@ -49,13 +64,12 @@ public class Credentials {
 	}
 
 	// Helper method per determinare se è un amministratore o presidente
-    public boolean isAdmin() {
-        return ADMIN_ROLE.equals(this.role);
-    }
+	public boolean isAdmin() {
+		return ADMIN_ROLE.equals(this.role);
+	}
 
-    public boolean isPresident() {
-        return PRESIDENT_ROLE.equals(this.role);
-    }
-	
-	
+	public boolean isPresident() {
+		return PRESIDENT_ROLE.equals(this.role);
+	}
+
 }

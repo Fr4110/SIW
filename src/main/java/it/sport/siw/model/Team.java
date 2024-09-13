@@ -1,12 +1,12 @@
 package it.sport.siw.model;
 
 import java.util.Objects;
-
-import jakarta.persistence.CascadeType;
+import java.util.Set;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -26,9 +26,19 @@ public class Team {
 	private Integer year;
 
 	private String address;
-	//da inserire la mappa per i gioactori
-	@OneToOne(cascade = CascadeType.ALL)
-	private President president;
+	
+	@OneToOne
+	@JoinColumn(name = "president_id")
+    private President president;
+	
+	public President getPresident() {
+		return president;
+	}
+
+	public void setPresident(President president) {
+		this.president = president;
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -61,15 +71,6 @@ public class Team {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-
-	public President getPresident() {
-		return president;
-	}
-
-	public void setPresident(President president) {
-		this.president = president;
-	}
 
 	@Override
 	public int hashCode() {
@@ -88,8 +89,5 @@ public class Team {
 		return Objects.equals(address, other.address) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && Objects.equals(president, other.president)
 				&& Objects.equals(year, other.year);
-	}
-
-	
-
+	}	
 }

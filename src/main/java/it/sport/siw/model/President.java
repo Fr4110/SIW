@@ -2,10 +2,14 @@ package it.sport.siw.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -25,7 +29,21 @@ public class President {
 	@NotNull
 	private LocalDate dateOfBirth;
 	
-	
+	private String username;
+	 @OneToOne
+	    @JoinColumn(name = "team_id")
+	    private Team team;
+	 
+	// Relazione uno-a-uno con Credentials
+	    @OneToOne(mappedBy = "president", cascade = CascadeType.ALL)
+	    private Credentials credentials;
+	    
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
+	}
 	public String getName() {
 		return name;
 	}
@@ -65,7 +83,7 @@ public class President {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(cf, city, dateOfBirth, name, surname);
+		return Objects.hash(cf, city, dateOfBirth, id, name, surname, team);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -77,7 +95,15 @@ public class President {
 			return false;
 		President other = (President) obj;
 		return Objects.equals(cf, other.cf) && Objects.equals(city, other.city)
-				&& Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(name, other.name)
-				&& Objects.equals(surname, other.surname);
+				&& Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(surname, other.surname)
+				&& Objects.equals(team, other.team);
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 }

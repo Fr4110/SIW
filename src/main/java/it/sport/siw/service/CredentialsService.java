@@ -40,6 +40,7 @@ public class CredentialsService {
         credentials.setRole(role);  // Assegna un ruolo all'utente
         return this.credentialsRepository.save(credentials);
     }
+    
     public boolean isAdmin(Credentials credentials) {
         return "ADMIN".equals(credentials.getRole());
     }

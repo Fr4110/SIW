@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestione Presidenti</title>
+</head>
+<body>
+    <h1>Gestione Presidenti</h1>
+
+    <!-- Ancora per inserire un nuovo presidente -->
+    <a th:href="@{/admin/formNewPresident}">Inserisci Nuovo Presidente</a>
+    <br>
+
+    <!-- Ancora per aggiornare un presidente esistente -->
+    <a th:href="@{/admin/selectPresidentToEdit}">Aggiorna Presidente Esistente</a>
+    <br>
+    
+    <!-- Ancora per visualizzare la lista dei presidenti -->
+    <a th:href="@{/presidents}">Visualizza Lista Presidenti</a>
+    
+    <div>
+        <a href="/admin/indexAdmin">Torna alla home amministratore</a>
+    </div>
+    
+</body>
+
+</html>

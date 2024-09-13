@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Presidenti</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <header>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a href="/logout">Logout</a>
+        </div>
+        <div th:unless="${user}">
+            <a href="/login">Login</a>
+        </div>
+    </header>
+
+    <h1>Presidenti</h1>
+    <div th:if="${presidents==null || presidents.isEmpty()}">Non ci sono presidenti nel sistema</div>
+    <ul>
+        <li th:each="president : ${presidents}">
+            <a th:href="@{'/admin/president' + '/' + ${president.id}}"
+                th:text="${president.name} + ' ' + ${president.surname}"></a>
+        </li>
+    </ul>
+    <div>
+        <a th:href="@{/}">Torna alla Home</a>
+    </div>
+</body>
+
+</html>

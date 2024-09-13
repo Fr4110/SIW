@@ -19,10 +19,12 @@
 
     <h1>Dettagli Presidente</h1>
 
-    <div th:if="${president != null}">
+    <div th:if="${president}">
         <p><strong>Nome:</strong> <span th:text="${president.name}"></span></p>
         <p><strong>Cognome:</strong> <span th:text="${president.surname}"></span></p>
         <p><strong>Anno di Nascita:</strong> <span th:text="${president.dateOfBirth}"></span></p>
+        <p><strong>Citta:</strong> <span th:text="${president.city}"></span></p>
+        <p><strong>Codice Fiscale:</strong> <span th:text="${president.cf}"></span></p>
         <!-- Aggiungi ulteriori dettagli se necessario -->
     </div>
     <div th:unless="${president}">

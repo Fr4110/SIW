@@ -38,9 +38,41 @@
 		</div>
 		
 		<div>
-			<span><button type="submit">Conferma</button></span>
-		</div>
+            <label>Citta:</label> <span><input required type="text" th:field="${president.city}" /></span>
+        </div>
+
+        <div>
+            <label>Codice Fiscale:</label> <span><input required type="text" th:field="${president.cf}" /></span>
+        </div>
+		
+		<div>
+            <label>Squadra:</label> 
+            <span>
+                <select required th:field="*{team.id}">
+                    <option value="" disabled selected>Scegli una squadra</option>
+                    <!-- Ciclo per mostrare tutte le squadre disponibili -->
+                    <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
+                </select>
+            </span>
+        </div>
+        
+		<!-- Credenziali -->
+        <h3>Crea le credenziali per il presidente</h3>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required="required"/>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required="required"/>
+        </div>
+
+        <button type="submit">Crea Presidente</button>
 	</form>
+	
+	<div>
+        <a href="/admin/indexAdmin">Torna alla home amministratore</a>
+    </div>
 </body>
 
 </html>

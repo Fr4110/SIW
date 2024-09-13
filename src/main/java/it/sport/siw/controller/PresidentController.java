@@ -11,95 +11,144 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.sport.siw.model.Credentials;
 import it.sport.siw.model.President;
+import it.sport.siw.model.Team;
 import it.sport.siw.repository.PresidentRepository;
-import it.sport.siw.service.PresidentService;
+import it.sport.siw.repository.TeamRepository;
+import it.sport.siw.service.CredentialsService;
 
 
 @Controller
 public class PresidentController {
-	
-	@Autowired
-	private PresidentRepository presidentRepository;
-	
-	@Autowired
-	private PresidentService presidentService;
-	
-	@GetMapping(value="/admin/indexPresident")
-	public String indexPresident() {
-		return "admin/indexPresident";
-	}
-	
-	@GetMapping(value="/admin/formNewPresident")
-	public String formNewPresident(Model model) {
-		model.addAttribute("president", new President());
-		return "admin/formNewPresident";
-	}
-	
-	@PostMapping("/admin/formNewPresident")
-	public String newPresident(@ModelAttribute("president") President president, Model model) {
-		if (!presidentRepository.existsByNameAndSurname(president.getName(), president.getSurname())) {
-			this.presidentRepository.save(president); 
-			model.addAttribute("president", president);
-			return "president";
-		} else {
-			model.addAttribute("messaggioErrore", "Questo presidente esiste già");
-			return "admin/formNewPresident"; 
-		}
-	}
-	
-	@GetMapping("/president/{id}")
-	public String getPresident(@PathVariable("id") Long id, Model model) {
-	    Optional<President> optionalPresident = this.presidentRepository.findById(id);
-	    
-	    if (optionalPresident.isPresent()) {
-	        model.addAttribute("president", optionalPresident.get());
-	        return "president";
-	    } else {
-	        model.addAttribute("errorMessage", "Presidente non trovato");
-	        return "error"; // O un'altra vista di errore
-	    }
-	}
-	 // Form per eliminare un presidente - Gestito dall'admin
-    @GetMapping("/admin/formDeletePresident")
-    public String formDeletePresident(Model model) {
-        model.addAttribute("presidents", this.presidentRepository.findAll());
-        return "admin/formDeletePresident";  // Mostra la vista con il form per eliminare
+
+    @Autowired
+    private PresidentRepository presidentRepository;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private CredentialsService credentialsService;
+
+    // Form per inserire un nuovo presidente
+    @GetMapping("/admin/formNewPresident")
+    public String formNewPresident(Model model) {
+        model.addAttribute("president", new President());
+        model.addAttribute("credentials", new Credentials()); // Aggiungi le credenziali al modello
+        model.addAttribute("teams", teamRepository.findAll()); // Lista di tutte le squadre
+        return "admin/formNewPresident";
     }
 
-    // Eliminazione di un presidente - Gestito dall'admin
-    @PostMapping("/admin/president/delete")
-    public String deletePresident(@RequestParam("Id") Long Id, Model model) {
-        if (this.presidentRepository.existsById(Id)) {
-            this.presidentRepository.deleteById(Id);
-            model.addAttribute("messaggioSuccesso", "Presidente eliminato con successo");
+    // Creazione di un nuovo presidente
+    @PostMapping("/admin/president")
+    public String newPresident(@ModelAttribute("president") President president, 
+                               @RequestParam("username") String username, 
+                               @RequestParam("password") String password,
+                               Model model) {
+
+        // Controlla se il presidente esiste già
+        if (!presidentRepository.existsByNameAndSurname(president.getName(), president.getSurname())) {
+            try {
+                // Salva il presidente nel database
+                presidentRepository.save(president);
+
+                // Crea le credenziali associate al presidente
+                Credentials credentials = new Credentials();
+                credentials.setUsername(username);
+                credentials.setPassword(password);  // Assicurati di crittografare la password nel service
+                credentials.setPresident(president);
+
+                // Salva le credenziali e assegna il ruolo "PRESIDENT_ROLE"
+                credentialsService.saveCredentials(credentials, Credentials.PRESIDENT_ROLE);
+
+                // Aggiungi un messaggio di successo al modello
+                model.addAttribute("successMessage", "Presidente aggiunto con successo!");
+
+                // Reindirizza alla lista dei presidenti
+                return "redirect:/presidents";
+
+            } catch (Exception e) {
+                // Aggiungi un messaggio di errore al modello se qualcosa va storto
+                model.addAttribute("errorMessage", "Errore nell'aggiunta del presidente.");
+                return "admin/formNewPresident";
+            }
+        } else {
+            // Mostra un messaggio di errore se il presidente esiste già
+            model.addAttribute("messaggioErrore", "Questo presidente esiste già");
+            return "admin/formNewPresident";
+        }
+    }
+
+    // Mostra la lista dei presidenti
+    @GetMapping("/presidents")
+    public String getAllPresidents(Model model) {
+        model.addAttribute("presidents", this.presidentRepository.findAll());
+        return "presidents";  // Pagina HTML per visualizzare i presidenti
+    }
+    
+    @GetMapping("/admin/president/{id}")
+    public String getPresident(@PathVariable("id") Long id, Model model) {
+    	  Optional<President> optionalPresident = this.presidentRepository.findById(id);
+    	    if (optionalPresident.isPresent()) {
+    	        model.addAttribute("president", optionalPresident.get());
+    	        return "president";  // Si riferisce alla tua pagina HTML 'president.html'
+    	    } else {
+    	        model.addAttribute("messaggioErrore", "Presidente non trovato");
+    	        return "error";  // Pagina di errore se il presidente non è trovato
+    	    }
+    }
+
+    // Form di modifica per il presidente selezionato
+    @GetMapping("/admin/formEditPresident/{id}")
+    public String formEditPresident(@PathVariable("id") Long id, Model model) {
+        Optional<President> optionalPresident = this.presidentRepository.findById(id);
+        if (optionalPresident.isPresent()) {
+            model.addAttribute("president", optionalPresident.get());
+            model.addAttribute("teams", teamRepository.findAll());  // Lista di tutte le squadre
+            return "admin/formEditPresident";
         } else {
             model.addAttribute("messaggioErrore", "Presidente non trovato");
+            return "error";  // Pagina di errore
         }
-        model.addAttribute("presidents", this.presidentRepository.findAll());
-        return "admin/formDeletePresident";  // Torna alla vista con il form per eliminare
     }
-    
-    @GetMapping("/admin/formEditPresident/{id}")
-    public String formEditPresident(@PathVariable Long id, Model model) {
-        President president = presidentService.findById(id);
-        if (president == null) {
-            return "error"; // La tua pagina di errore
-        }
-        model.addAttribute("president", president);
-        return "admin/formEditPresident"; // Assicurati di avere una vista chiamata "editPresidentForm.html"
-    }
-    
+
+    // Modifica di un presidente esistente
     @PostMapping("/admin/formEditPresident/{id}")
-    public String updatePresident(@PathVariable Long id, @ModelAttribute President president, Model model) {
-        try {
-            // Logica per aggiornare il presidente
-            presidentService.updatePresident(id, president);
-            return "redirect:/admin/success"; // O qualsiasi altra pagina di successo
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Errore durante l'aggiornamento del presidente.");
-            return "error"; // La tua pagina di errore
+    public String updatePresident(@PathVariable("id") Long id, @ModelAttribute("president") President president, Model model) {
+        Optional<President> optionalPresident = this.presidentRepository.findById(id);
+        if (optionalPresident.isPresent()) {
+            President existingPresident = optionalPresident.get();
+            existingPresident.setName(president.getName());
+            existingPresident.setSurname(president.getSurname());
+            existingPresident.setCity(president.getCity());
+            existingPresident.setCf(president.getCf());
+
+            // Associa la squadra al presidente, se selezionata
+            if (president.getTeam() != null && teamRepository.existsById(president.getTeam().getId())) {
+                Team team = teamRepository.findById(president.getTeam().getId()).get();
+                existingPresident.setTeam(team);
+            }
+
+            // Salva il presidente aggiornato
+            this.presidentRepository.save(existingPresident);
+            model.addAttribute("president", existingPresident);
+            return "redirect:/president/" + id;  // Redirect alla lista dei presidenti
+        } else {
+            model.addAttribute("messaggioErrore", "Errore nell'aggiornamento del presidente");
+            return "admin/formEditPresident";
         }
+    }
+    
+ // Rotta per mostrare la pagina delle operazioni sulle squadre (inserimento/aggiornamento)
+    @GetMapping("/admin/presidentOperation")
+    public String presidentOperationsPage(Model model) {
+        return "admin/presidentOperation"; 
+    }
+    
+ // Form per scegliere il presidente da modificare
+    @GetMapping("/admin/selectPresidentToEdit")
+    public String selectPresidentToEdit(Model model) {
+        model.addAttribute("presidents", this.presidentRepository.findAll());
+        return "admin/selectPresidentToEdit";  // Pagina per la selezione del presidente da modificare
     }
 
 }

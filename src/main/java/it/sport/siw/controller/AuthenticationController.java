@@ -45,7 +45,7 @@ public class AuthenticationController {
         SecurityContextHolder.clearContext();
         return "redirect:/login";
     }
-
+ 
  // Gestione del successo post-login
     @GetMapping("/success")
     public String loginSuccess(Model model) {
@@ -84,7 +84,7 @@ public class AuthenticationController {
     }
 
     // Index President: Gestito dal presidente
-    /*@GetMapping("/president/indexPresident")
+    @GetMapping("/president/indexPresident")
     public String indexPresident(Model model) {
         // Recupera l'utente autenticato
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -96,5 +96,5 @@ public class AuthenticationController {
 
         // Ritorna alla vista dell'index per il presidente
         return "president/indexPresident";  // Nome del template HTML per la pagina del presidente
-    }*/	
+    }
 }

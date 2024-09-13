@@ -1,61 +1,53 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Modifica Presidente</title>
+    <title>SiwSport - Modifica Presidente</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
-
 <body>
     <header>
         <div th:if="${userDetails}">
             <span th:text="${userDetails.username}"></span>
             <a href="/logout">Logout</a>
         </div>
-        <div th:unless="${userDetails}">
-            <a href="/login">Login</a>
-        </div>
     </header>
 
     <h1>Modifica Presidente</h1>
 
-    <!-- Form per modificare il presidente -->
-    <div th:if="${president}">
-        <form action="/admin/president/edit" method="post">
-            <input type="hidden" th:value="${president.id}" name="id" />
+    <form th:object="${president}" th:action="@{/admin/formEditPresident/{id}(id=${president.id})}" method="post">
+        <div>
+            <label for="name">Nome</label>
+            <input type="text" id="name" th:field="*{name}" />
+        </div>
 
-            <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" th:value="${president.name}" required />
+        <div>
+            <label for="surname">Cognome</label>
+            <input type="text" id="surname" th:field="*{surname}" />
+        </div>
 
-            <label for="surname">Cognome:</label>
-            <input type="text" id="surname" name="surname" th:value="${president.surname}" required />
+        <div>
+            <label for="cf">Codice Fiscale</label>
+            <input type="text" id="cf" th:field="*{cf}" />
+        </div>
 
-            <label for="city">Città:</label>
-            <input type="text" id="city" name="city" th:value="${president.city}" required />
+        <div>
+            <label for="city">Città</label>
+            <input type="text" id="city" th:field="*{city}" />
+        </div>
+        
+        <div>
+            <label for="dateOfBirth">Data di nascita</label>
+            <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" />
+        </div>
 
-            <label for="cf">Codice Fiscale:</label>
-            <input type="text" id="cf" name="cf" th:value="${president.cf}" required />
-
-            <button type="submit">Salva Modifiche</button>
-        </form>
-    </div>
-
-    <!-- Messaggio di errore nel caso il presidente non sia trovato -->
-    <div th:unless="${president}">
-        <p>Presidente non trovato.</p>
-    </div>
-
-    <!-- Messaggi di errore o successo -->
-    <div th:if="${messaggioErrore}">
-        <p th:text="${messaggioErrore}" style="color: red;"></p>
-    </div>
-    <div th:if="${messaggioSuccesso}">
-        <p th:text="${messaggioSuccesso}" style="color: green;"></p>
-    </div>
+        <div>
+            <button type="submit">Salva modifiche</button>
+        </div>
+    </form>
 
     <div>
-        <a th:href="@{/}">Torna alla Home</a>
+        <a href="/admin/indexAdmin">Torna alla home amministratore</a>
     </div>
-</body>
 
+</body>
 </html>
