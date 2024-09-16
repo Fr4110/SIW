@@ -1,5 +1,6 @@
 package it.sport.siw.controller;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,8 +187,13 @@ public class PresidentController {
     }
  // Rotta per mostrare la pagina delle operazioni sulle squadre (inserimento/aggiornamento)
     @GetMapping("/admin/presidentOperation")
-    public String presidentOperationsPage(Model model) {
-        return "admin/presidentOperation"; 
+    public String presidentOperationsPage(Model model, Principal principal) {
+        // Recupera il nome dell'utente autenticato
+        if (principal != null) {
+            String username = principal.getName();
+            model.addAttribute("userDetails", username);  // Aggiungi il nome utente al modello
+        }
+        return "admin/presidentOperation";  // La tua pagina HTML
     }
 
 }

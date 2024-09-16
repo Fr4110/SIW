@@ -7,12 +7,12 @@
 </head>
 
 <body>
-    <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-    </header>
+     <header>
+    <div th:if="${userDetails}">
+        <span th:text="${userDetails.username}">Username</span> 
+        <a href="/logout" class="logout-btn">Logout</a> <!-- Aggiunto la classe logout-btn per poterlo gestire meglio con css -->
+    </div>
+</header>
 
     <h1>Login</h1>
 
@@ -40,10 +40,10 @@
         </div>
     </form>
 
-    <!-- Ancora per tornare alla homepage -->
-    <div>
-        <a th:href="@{/}">Torna alla homepage</a>
-    </div>
+    <!-- Bottone per tornare alla home -->
+	<div class="back-button-container">
+		<a class="back-button" th:href="@{/}">Torna alla HomePage</a>
+	</div>
    
 </body>
 

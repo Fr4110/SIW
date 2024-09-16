@@ -3,17 +3,10 @@
 
 <head>
     <title>Giocatori</title>
-	<link rel="stylesheet" href="/static/stile.css">
+	<link rel="stylesheet" href="/css/teams.css">
  </head>
 
 <body>
-    <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-    </header>
-
     <h1>Lista giocatori della tua squadra</h1>
 
     <div th:if="${players == null || players.isEmpty()}">

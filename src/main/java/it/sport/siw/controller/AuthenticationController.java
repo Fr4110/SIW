@@ -59,20 +59,29 @@ public class AuthenticationController {
             return "redirect:/login?error=true";  // In caso di errore, reindirizza al login con errore
         }
     }
-    // Index Admin: Gestito dall'amministratore
+ // Index Admin: Gestito dall'amministratore
     @GetMapping("/admin/indexAdmin")
     public String indexAdmin(Model model) {
         // Recupera l'utente autenticato
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Aggiungi i dettagli dell'admin al modello
-        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-        model.addAttribute("admin", credentials);
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Recupera le credenziali usando il nome utente
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            model.addAttribute("admin", credentials);
+        } else {
+            // Se il principal non è un'istanza di UserDetails, puoi gestirlo qui
+            String username = authentication.getName();  // Di solito il nome utente
+            Credentials credentials = credentialsService.getCredentials(username);
+            model.addAttribute("admin", credentials);
+        }
 
         // Ritorna alla vista dell'index per l'admin
         return "admin/indexAdmin";  // Nome del template HTML per la pagina dell'admin
     }
+
 
  // Index President: Gestito dal presidente
     @GetMapping("/president/indexPresident")

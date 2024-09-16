@@ -10,11 +10,11 @@
 
 <body>
 	<header>
-		<div th:if="${userDetails}">
+        <div th:if="${userDetails}">
 			<span> Benvenuto</span><span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-	</header>
+        <a href="/logout" class="logout-btn">Logout</a> <!-- Aggiunto la classe logout-btn per poterlo gestire meglio con css -->
+    </div>
+    </header>
 
 	<h1>Operazioni per amministratore</h1>
 	<div>

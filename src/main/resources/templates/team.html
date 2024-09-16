@@ -3,12 +3,12 @@
 
 <head>
 <title>Team</title>
-<link rel="stylesheet" href="/css/teams.css" />
+<link rel="stylesheet" href="/css/team.css" />
 </head>
 
 <body>
 
-	<h1>Dettagli Team</h1>
+	<h1>Dettagli Squadra</h1>
 	<div th:if="${team}">
 		<span th:text="${team.name}"></span> <span
 			th:text="'(' + ${team.year} + ')'"></span> <span
@@ -28,7 +28,7 @@
 	</div>
 	<div th:unless="${team}">Non esiste</div>
 	<div>
-		<a th:href="@{/}">Torna alla Home</a>
+		<a th:href="@{/team}">Torna alla lista dei team</a>
 	</div>
 </body>
 

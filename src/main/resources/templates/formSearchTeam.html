@@ -2,26 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Cerca Team</title>
-  <link rel="stylesheet" href="/css/stile.css" />
+  <link rel="stylesheet" href="/css/formSearch.css" />
 </head>
 
 <body>
-<h1>Cerca team per anno</h1>
-	<form th:action="@{/formSearchTeam}" method="post">
-		<div>
-			Anno: <input type="text" th:field="*{teamSearch.year}" required/>
-			<!-- Messaggi di errore per il campo year -->
-			<div th:if="${#fields.hasErrors('teamSearch.year')}" th:errors="*{teamSearch.year}"> <!-- Messaggi di errore per il campo year --></div>
-		</div>
-		<button type="submit">Cerca Team</button>
-	</form>
+  <h1>Cerca Squadra per anno</h1>
 
-	<!-- Messaggio di errore nel caso non siano trovati team -->
-	<div th:if="${teams == null || teams.isEmpty()}">
-		Nessun team trovato per l'anno specificato.
-	</div>
-	
-	 <!-- Ancora per tornare alla home -->
+  <form th:action="@{/formSearchTeam}" method="post">
+    <div>
+      Anno: <input type="text" th:field="*{teamSearch.year}" required/>
+    </div>
+
+    <!-- Messaggio di errore per il campo year, visibile solo dopo l'invio del form -->
+    <div th:if="${#fields.hasErrors('teamSearch.year') and #fields.isSubmitted()}" th:errors="*{teamSearch.year}"> <!-- Messaggi di errore per il campo year --></div>
+
+    <button type="submit">Cerca Team</button>
+  </form>
+
+  <!-- Messaggio di errore nel caso non siano trovati team -->
+  <div th:if="${teams == null || teams.isEmpty()}">
+    Nessun team trovato per l'anno specificato.
+  </div>
+
+  <!-- Ancora per tornare alla home -->
   <div>
     <a th:href="@{/}">Torna alla Home</a>
   </div>

@@ -2,16 +2,9 @@
 <html>
 <head>
     <title>Dettagli Presidente</title>
-	<link rel="stylesheet" href="/static/stile.css">
+	<link rel="stylesheet" href="/css/team.css">
  </head>
 <body>
-    <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-    </header>
-
     <h1>Dettagli Presidente</h1>
 
     <div th:if="${president}">

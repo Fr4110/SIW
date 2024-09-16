@@ -5,7 +5,7 @@
 	<title>
 		Nuovo Presidente
 	</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/formNew.css" />
 </head>
 
 <body>
@@ -13,9 +13,6 @@
 		<div th:if="${userDetails}">
 			<span th:text="${userDetails.username}"></span>
 			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
 		</div>
 	</header>
 

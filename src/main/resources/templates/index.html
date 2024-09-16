@@ -8,6 +8,7 @@
 <body>
     <!-- Header con opzione di logout se l'utente è autenticato -->
     <header>
+    <h1>Siw-Sport</h1>
         <div th:if="${username != null}">
             <span>Benvenuto, <span th:text="${username}">User</span></span>
             <a th:href="@{/logout}">Logout</a>

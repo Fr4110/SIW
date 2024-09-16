@@ -28,10 +28,10 @@ header span {
 
 header a {
     display: inline-block;
-    width: 100px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 1em;
+    width: 120px; /* Allungato */
+    height: 35px; /* Aumentato */
+    line-height: 35px;
+    font-size: 1.1em;
     color: #fff;
     background-color: #ff4081;
     text-decoration: none;
@@ -52,14 +52,15 @@ h1 {
 
 div {
     margin: 10px;
+    text-align: center; /* Centra il contenuto */
 }
 
 div a {
     display: inline-block;
-    width: 250px; /* Dimensione standard per i pulsanti */
-    height: 50px;
-    line-height: 50px;
-    font-size: 1.2em;
+    width: 300px; /* Allargato per maggiore visibilità */
+    height: 55px; /* Aumentato per uniformità */
+    line-height: 55px;
+    font-size: 1.3em;
     color: #fff;
     background-color: #6a11cb;
     text-decoration: none;
@@ -89,6 +90,23 @@ form label {
     color: #fff;
 }
 
+.logout-btn {
+    display: inline-block;
+    width: 120px; /* Allungato */
+    height: 35px;
+    line-height: 35px;
+    font-size: 1.3em;
+    color: #fff;
+    background-image: #6a11cb;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
+}
+
 form input, form button {
     padding: 12px;
     border-radius: 5px;
@@ -104,8 +122,8 @@ form button {
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 1.1em; /* Modificato: ingrandito leggermente il tasto di conferma */
-    padding: 12px 40px; /* Modificato: ingrandito leggermente il tasto di conferma */
+    font-size: 1.1em;
+    padding: 12px 40px;
 }
 
 form button:hover {
@@ -115,17 +133,16 @@ form button:hover {
 /* Stile per il pulsante "Torna alla Home" */
 .footer-link {
     text-align: center;
-    margin-top: 20px; /* Distanza tra il form e il pulsante Torna alla Home */
-    margin-bottom: 20px; /* Distanza dal fondo */
-    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .footer-link a {
     display: inline-block;
-    width: 300px; /* Dimensione specifica per il pulsante "Torna alla Home" */
-    height: 50px;
-    line-height: 50px;
-    font-size: 1.2em;
+    width: 350px; /* Allungato per migliore visibilità */
+    height: 55px; /* Aumentato per uniformità */
+    line-height: 55px;
+    font-size: 1.3em;
     color: #fff;
     background-color: #6a11cb;
     text-decoration: none;
@@ -141,4 +158,10 @@ form button:hover {
 .footer-link a:hover {
     background-color: #2575fc;
     background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
+}
+
+.confirm-btn {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

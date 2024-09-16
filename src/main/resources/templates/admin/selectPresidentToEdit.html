@@ -2,15 +2,15 @@
 <html>
 <head>
     <title>SiwSport - Seleziona Presidente da Modificare</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="/css/selectPresident.css" />
 </head>
 <body>
     <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-    </header>
+    <div th:if="${userDetails}">
+        <span th:text="${userDetails.username}">Username</span> 
+        <a href="/logout" class="logout-btn">Logout</a> <!-- Aggiunto la classe logout-btn per poterlo gestire meglio con css -->
+    </div>
+</header>
 
     <h1>Seleziona un presidente da modificare</h1>
     
@@ -31,6 +31,6 @@
     <div>
         <a href="/admin/presidentOperation">Torna alla gestione dei presidenti</a>
     </div>
-
+	
 </body>
 </html>

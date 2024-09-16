@@ -1,4 +1,25 @@
-/* stile.css */
+.logout-btn {
+    display: inline-block;
+    width: 100px;
+    margin-left: 15px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #6a11cb;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    background-image: linear-gradient(45deg, #6a11cb 25%, transparent 25%, transparent 50%, #6a11cb 50%, #6a11cb 75%, transparent 75%, transparent);
+    background-size: 28.28px 28.28px;
+}
+
+.logout-btn:hover {
+    background-color: #2575fc;
+    background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
+}
+
 
 body {
     font-family: 'Arial', sans-serif;
@@ -10,9 +31,9 @@ body {
 
 header {
     display: flex;
-    justify-content: left;
+    justify-content: space-between; /* Per separare il nome utente e il logout */
     align-items: center;
-    padding: 0px;
+    padding: 0 20px; /* Aggiunto un padding per la distanza dal bordo */
     background-color: rgba(0, 0, 0, 0.5);
     border-bottom: 2px solid #fff;
 }
@@ -24,8 +45,14 @@ header div {
 
 header span {
     font-size: 1.2em;
-    margin-right: 20px;
     color: #fff;
+}
+
+header .separator {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #fff;
+    margin: 0 20px; /* Spaziatura tra il nome utente e il pulsante */
 }
 
 header a {
@@ -52,13 +79,9 @@ h1 {
     margin-bottom: 50px;
 }
 
-div {
-    margin: 20px;
-}
-
-div a {
+a {
     display: inline-block;
-    width: 250px;
+    width: 300px;
     height: 50px;
     line-height: 50px;
     font-size: 1.2em;
@@ -67,37 +90,34 @@ div a {
     text-decoration: none;
     border-radius: 8px;
     transition: background-color 0.3s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 10px 0;
+    background-image: linear-gradient(45deg, #6a11cb 25%, transparent 25%, transparent 50%, #6a11cb 50%, #6a11cb 75%, transparent 75%, transparent);
+    background-size: 28.28px 28.28px;
+}
+
+a:hover {
+    background-color: #2575fc;
+    background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
+}
+
+/* Stile per il pulsante "Torna alla home amministratore" */
+div a {
+    display: inline-block;
+    width: 350px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #6a11cb;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
     background-image: linear-gradient(45deg, #6a11cb 25%, transparent 25%, transparent 50%, #6a11cb 50%, #6a11cb 75%, transparent 75%, transparent);
     background-size: 28.28px 28.28px;
 }
 
 div a:hover {
     background-color: #2575fc;
-    background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
-}
-
-.logout-btn {
-    display: inline-block;
-    width: 100px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 1.1em;
-    color: #fff;
-    background-color: #6a11cb;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-   	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-image: linear-gradient(45deg, #6a11cb 25%, transparent 25%, transparent 50%, #6a11cb 50%, #6a11cb 75%, transparent 75%, transparent);
-    background-size: 28.28px 28.28px;
-}
-
-.logout-btn:hover {
-   background-color: #2575fc;
     background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
 }

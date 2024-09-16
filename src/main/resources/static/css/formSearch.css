@@ -1,0 +1,95 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    font-size: 3em;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 40px;
+}
+
+/* Stile per il form */
+form {
+    margin-top: 30px;
+}
+
+form div {
+    margin: 20px 0;
+    font-size: 1.5em;
+}
+
+form input[type="text"] {
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+form input[type="text"]::placeholder {
+    color: #ccc;
+}
+
+form input[type="text"]:focus {
+    outline: none;
+    border-color: #ff4081;
+}
+
+/* Pulsante di invio */
+form button {
+    padding: 12px 40px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #ff4081;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #e91e63;
+}
+
+/* Messaggi di errore */
+div[th\\:if="${#fields.hasErrors('teamSearch.year')}"] {
+    color: #ff4081;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Messaggio "Nessun team trovato" */
+div[th\\:if="${teams == null || teams.isEmpty()}"] {
+    color: #ff4081;
+    font-size: 1.5em;
+    margin-top: 30px;
+}
+
+/* Pulsante "Torna alla Home" */
+a {
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #6a11cb;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-top: 50px;
+    background-image: linear-gradient(45deg, #6a11cb 25%, transparent 25%, transparent 50%, #6a11cb 50%, #6a11cb 75%, transparent 75%, transparent);
+    background-size: 28.28px 28.28px;
+}
+
+a:hover {
+    background-color: #2575fc;
+    background-image: linear-gradient(45deg, #2575fc 25%, transparent 25%, transparent 50%, #2575fc 50%, #2575fc 75%, transparent 75%, transparent);
+}
