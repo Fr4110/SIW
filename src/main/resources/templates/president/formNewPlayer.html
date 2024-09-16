@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Nuovo Giocatore</title>
+<link rel="stylesheet" href="/css/formNew.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span> <a href="/logout">Logout</a>
+		</div>
+	</header>
+
+	<h1>Aggiungi un giocatore</h1>
+	<form th:action="@{/president/indexPlayer}" method="POST"
+		th:object="${player}">
+		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		</div>
+
+		<!-- Aggiungi un campo nascosto per teamId -->
+		<input type="hidden" name="teamId" th:value="${teamId}" />
+
+		<div>
+			<label>Nome:</label> <span><input required type="text"
+				th:field="${player.name}" /></span>
+		</div>
+
+		<div>
+			<label>Cognome:</label> <span><input required type="text"
+				th:field="${player.surname}" /></span>
+		</div>
+
+		<div>
+			<label>Data di nascita:</label> <span><input type="date"
+				th:field="${player.dateOfBirth}" /></span>
+		</div>
+
+		<div>
+			<label>Citta:</label> <span><input required type="text"
+				th:field="${player.city}" /></span>
+		</div>
+
+		<div>
+			<label>Ruolo:</label> <span><input required type="text"
+				th:field="${player.role}" /></span>
+		</div>
+
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+	
+	<div class="footer-link">
+		<a th:href="@{/president/indexPresident}">Torna alla gestione dei giocatori</a>
+	</div>
+	
+</body>
+
+</html>

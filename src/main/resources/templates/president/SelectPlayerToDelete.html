@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seleziona Giocatore da Eliminare</title>
+    <link rel="stylesheet" href="/static/form2.css">
+</head>
+<body>
+    <h1>Seleziona Giocatore da Eliminare</h1>
+    
+    <ul>
+        <li th:each="player : ${players}">
+            <span th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</span>
+            <form th:action="@{/president/deletePlayer/{id}(id=${player.id})}" method="post" style="display:inline;">
+                <button type="submit" style="color: red; background: none; border: none; text-decoration: none; cursor: pointer;">Elimina</button>
+            </form>
+        </li>
+    </ul>
+    
+    <div class="footer-link">      
+        <a th:href="@{/president/indexPresident}">Torna alla gestione dei giocatori</a>
+    </div>
+</body>
+</html>

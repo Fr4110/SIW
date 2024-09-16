@@ -1,0 +1,66 @@
+/* stile.css */
+
+/* Stile di base per il corpo della pagina */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Stile per il titolo principale */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Stile per il messaggio quando non ci sono team */
+div[th\\:if] {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 20px;
+}
+
+/* Stile per l'elenco dei team */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+li {
+    background: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.1em;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Stile per il link "Torna alla Home" */
+div > a {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+div > a:hover {
+    text-decoration: underline;
+}

@@ -2,33 +2,31 @@
 <html>
 
 <head>
-	<title>
-		SiwSport - Gestione Squadra
-	</title>
+	<title>Team</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
+	
+	<h1>Dettagli Team</h1>
+	<div th:if="${team}">
+		<span th:text="${team.name}"></span>
+		<span th:text="'(' + ${team.year} + ')'"></span>
+		<span th:text="${team.address}"></span>
+		
+		<!-- Aggiungi un link per visualizzare i dettagli del presidente -->
+		<h2>Dettagli Presidente</h2>
+		<div th:if="${team.president}">
+		    <a th:href="@{/admin/president/{id}(id=${team.president.id})}">Visualizza Presidente</a>
 		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
+		<div th:unless="${team.president}">
+		    <p>Nessun presidente associato.</p>
 		</div>
-	</header>
-
-	<h1>Gestione Squadra</h1>
-	<div>
-		<a href="/admin/formNewTeam">Inserisci i dati di una squadra</a>
+		
 	</div>
-	 <! -- manca il gestisci squadra -->
+	<div th:unless="${team}">Non esiste</div>
 	<div>
-		<a href="/formSearchTeam">Cerca squadra per anno</a>
-	</div>
-	<div>
-    <a th:href="@{/}">Torna alla Home</a>
+    <a th:href="@{/admin/indexTeams}">Torna alla lista delle squadre</a>
   </div>
 </body>
 

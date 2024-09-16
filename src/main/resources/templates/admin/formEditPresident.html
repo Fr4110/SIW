@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SiwSport - Modifica Presidente</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+<title>SiwSport - Modifica Presidente</title>
+<link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-    <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-    </header>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span> <a href="/logout">Logout</a>
+		</div>
+	</header>
 
-    <h1>Modifica Presidente</h1>
+	<h1>Modifica Presidente</h1>
 
-    <form th:object="${president}" th:action="@{/admin/formEditPresident/{id}(id=${president.id})}" method="post">
-        <div>
-            <label for="name">Nome</label>
-            <input type="text" id="name" th:field="*{name}" />
-        </div>
+	<form th:object="${president}"
+		th:action="@{/admin/formEditPresident/{id}(id=${president.id})}" method="post">
+		<div>
+			<label for="name">Nome</label> <input type="text" id="name"
+				th:field="*{name}" />
+		</div>
 
-        <div>
-            <label for="surname">Cognome</label>
-            <input type="text" id="surname" th:field="*{surname}" />
-        </div>
+		<div>
+			<label for="surname">Cognome</label> <input type="text" id="surname"
+				th:field="*{surname}" />
+		</div>
 
-        <div>
-            <label for="cf">Codice Fiscale</label>
-            <input type="text" id="cf" th:field="*{cf}" />
-        </div>
+		<div>
+			<label for="cf">Codice Fiscale</label> <input type="text" id="cf"
+				th:field="*{cf}" />
+		</div>
 
-        <div>
-            <label for="city">Città</label>
-            <input type="text" id="city" th:field="*{city}" />
-        </div>
-        
-        <div>
-            <label for="dateOfBirth">Data di nascita</label>
-            <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" />
-        </div>
+		<div>
+			<label for="city">Città</label> <input type="text" id="city"
+				th:field="*{city}" />
+		</div>
 
-        <div>
-            <button type="submit">Salva modifiche</button>
-        </div>
-    </form>
+		<div>
+			<label for="dateOfBirth">Data di nascita</label> <input type="date"
+				id="dateOfBirth" th:field="*{dateOfBirth}" />
+		</div>
 
-    <div>
-        <a href="/admin/indexAdmin">Torna alla home amministratore</a>
-    </div>
+		<div>
+			<label>Squadra:</label> <span> <select required
+				th:field="*{team.id}">
+					<option value="" disabled selected>Scegli una squadra</option>
+					<!-- Ciclo per mostrare tutte le squadre disponibili -->
+					<option th:each="team : ${teams}" th:value="${team.id}"
+						th:text="${team.name}"></option>
+			</select>
+			</span>
+		</div>
+
+		<div>
+			<button type="submit">Salva modifiche</button>
+		</div>
+	</form>
+
+	<div>
+		<a href="/admin/selectPresidentToEdit">Torna alla modifica dei presidenti</a>
+	</div>
 
 </body>
 </html>

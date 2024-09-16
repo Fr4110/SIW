@@ -17,6 +17,7 @@ public class CredentialsService {
     @Autowired
     protected CredentialsRepository credentialsRepository;
 
+    // Recupera le credenziali tramite ID
     @Transactional
     public Credentials getCredentials(Long id) {
         Optional<Credentials> result = this.credentialsRepository.findById(id);
@@ -34,13 +35,13 @@ public class CredentialsService {
         return result.orElse(null);
     }
 
+    
     @Transactional
     public Credentials saveCredentials(Credentials credentials, String role) {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
         credentials.setRole(role);  // Assegna un ruolo all'utente
         return this.credentialsRepository.save(credentials);
     }
-    
     public boolean isAdmin(Credentials credentials) {
         return "ADMIN".equals(credentials.getRole());
     }
@@ -48,4 +49,6 @@ public class CredentialsService {
     public boolean isPresident(Credentials credentials) {
         return "PRESIDENT".equals(credentials.getRole());
     }
+
+
 }

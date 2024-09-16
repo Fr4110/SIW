@@ -20,6 +20,7 @@
     <div th:if="${player}">
         <span th:text="${player.name} + ' ' + ${player.surname}"></span>
         <span th:text="'(' + ${player.dateOfBirth} + ')'"></span>
+        <span th:text="' - ' + ${player.city}"></span>
     </div>
     <div th:unless="${player}">Non esiste</div>
     <div>

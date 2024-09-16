@@ -1,7 +1,6 @@
 package it.sport.siw.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,43 +8,36 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import it.sport.siw.model.Credentials;
 import it.sport.siw.service.CredentialsService;
-import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
-	
-	//@Autowired
-    //private AuthenticationManager authenticationManager;
-	
-	@Autowired
-	private CredentialsService credentialsService;
-	
-	@GetMapping("/login")
-	public String showLoginForm (Model model) {
-		return "formLogin";
-	}
 
-	// Gestione del login fallito
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CredentialsService credentialsService;
+
+    // Pagina di login
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    // Gestione del login fallito
     @GetMapping("/failure")
     public String failure(Model model) {
         model.addAttribute("errorLogin", "Username o password errati!");
         return "login";
     }
-    
- // Logout
-    @GetMapping("/logout")
-    public String logout() {
-        SecurityContextHolder.clearContext();
-        return "redirect:/login";
-    }
- 
+
+
  // Gestione del successo post-login
     @GetMapping("/success")
     public String loginSuccess(Model model) {
@@ -67,8 +59,7 @@ public class AuthenticationController {
             return "redirect:/login?error=true";  // In caso di errore, reindirizza al login con errore
         }
     }
-    
- // Index Admin: Gestito dall'amministratore
+    // Index Admin: Gestito dall'amministratore
     @GetMapping("/admin/indexAdmin")
     public String indexAdmin(Model model) {
         // Recupera l'utente autenticato
@@ -83,7 +74,7 @@ public class AuthenticationController {
         return "admin/indexAdmin";  // Nome del template HTML per la pagina dell'admin
     }
 
-    // Index President: Gestito dal presidente
+ // Index President: Gestito dal presidente
     @GetMapping("/president/indexPresident")
     public String indexPresident(Model model) {
         // Recupera l'utente autenticato
@@ -96,5 +87,13 @@ public class AuthenticationController {
 
         // Ritorna alla vista dell'index per il presidente
         return "president/indexPresident";  // Nome del template HTML per la pagina del presidente
+    }
+    
+    
+    // Logout
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityContextHolder.clearContext();
+        return "redirect:/login";
     }
 }

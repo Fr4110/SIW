@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seleziona Giocatore da Modificare</title>
+    <link rel="stylesheet" href="/static/form2.css">
+</head>
+<body>
+    <h1>Seleziona Giocatore da Modificare</h1>
+    
+    <ul>
+        <li th:each="player : ${players}">
+            <span th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</span>
+            <a th:href="@{/president/formEditPlayer/{id}(id=${player.id})}">Modifica</a>
+        </li>
+    </ul>
+    
+<div class="footer-link">        <a th:href="@{/president/indexPresident}">Torna alla gestione dei giocatori</a>
+    </div>
+</body>
+</html>

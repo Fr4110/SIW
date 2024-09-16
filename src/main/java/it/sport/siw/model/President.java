@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +32,7 @@ public class President {
 	
 	private String username;
 	 @OneToOne
-	    @JoinColumn(name = "team_id")
+	  @JoinColumn(name = "team_id")
 	    private Team team;
 	 
 	// Relazione uno-a-uno con Credentials
@@ -42,8 +43,15 @@ public class President {
 		return team;
 	}
 	public void setTeam(Team team) {
-		this.team = team;
+	    if (!Objects.equals(this.team, team)) {
+	        this.team = team;
+	        if (team != null && !Objects.equals(team.getPresident(), this)) {
+	            team.setPresident(this);
+	        }
+	    }
 	}
+
+
 	public String getName() {
 		return name;
 	}
@@ -81,9 +89,13 @@ public class President {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(cf, city, dateOfBirth, id, name, surname, team);
+		return Objects.hash(cf, city, dateOfBirth, id, name, surname, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -97,10 +109,7 @@ public class President {
 		return Objects.equals(cf, other.cf) && Objects.equals(city, other.city)
 				&& Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && Objects.equals(surname, other.surname)
-				&& Objects.equals(team, other.team);
-	}
-	public String getUsername() {
-		return username;
+				&& Objects.equals(username, other.username);
 	}
 	public void setUsername(String username) {
 		this.username = username;

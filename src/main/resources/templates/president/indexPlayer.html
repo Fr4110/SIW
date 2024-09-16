@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dettagli Giocatore</title>
+	<link rel="stylesheet" href="/static/stile.css">
+</head>
+
+<body>
+    <header>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a href="/logout">Logout</a>
+        </div>
+    </header>
+
+    <h1>Dettagli Giocatore</h1>
+
+    <div th:if="${player}">
+        <p>
+            <strong>Nome:</strong> <span th:text="${player.name}"></span>
+        </p>
+        <p>
+            <strong>Cognome:</strong> <span th:text="${player.surname}"></span>
+        </p>
+        <p>
+            <strong>Data di nascita:</strong> <span th:text="${player.dateOfBirth}"></span>
+        </p>
+        <p>
+            <strong>Ruolo:</strong> <span th:text="${player.role}"></span>
+        </p>
+        <p>
+            <strong>Squadra:</strong> <span th:text="${player.team != null ? player.team.name : 'Nessuna squadra'}"></span>
+        </p>
+
+        <!-- Dettagli del contratto se esiste -->
+        <div th:if="${player.contract}">
+            <h2>Dettagli del Contratto</h2>
+            <p>
+                <strong>Data inizio carriera:</strong> <span th:text="${player.contract.startCareer}"></span>
+            </p>
+            <p>
+                <strong>Data fine carriera:</strong> <span th:text="${player.contract.stopCareer} != null ? ${player.contract.stopCareer} : 'Nessuna data di fine carriera'"></span>
+            </p>
+        </div>
+
+        <div th:unless="${player.contract}">
+            <p>Il giocatore non ha un contratto attivo.</p>
+        </div>
+    </div>
+
+    <div th:unless="${player}">
+        <p>Il giocatore non esiste.</p>
+    </div>
+
+<div class="footer-link">        <a th:href="@{/president/indexPlayers}">Torna alla lista dei giocatori</a>
+    </div>
+</body>
+
+</html>

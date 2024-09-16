@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			SiwSport - Gestione presidenti
+		</title>
+		<link rel="stylesheet" href="/css/indexPresident.css" />
+	</head>
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+	</header>
+
+		<h1>Gestione Giocatori</h1>
+		<div>
+			<a href="/president/formNewPlayer">Aggiungi un Giocatore</a>
+		</div>
+		<div>
+			<a href="/president/selectPlayerToEdit">Modifica un Giocatore</a>
+		</div>
+		<div>
+			<a href="/president/selectPlayerToDelete">Elimina un Giocatore</a>
+		</div>
+		<div>
+			<a href="/president/indexPlayers">Visualizza Lista Giocatori</a>
+		</div>
+	</body>
+</html>
